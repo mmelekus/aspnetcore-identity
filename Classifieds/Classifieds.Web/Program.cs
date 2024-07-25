@@ -16,6 +16,8 @@ var mySqlPwd = Environment.GetEnvironmentVariable("MY_SQL_PWD");
 // Add services to the container.
 builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
     .AddCookie(q => q.LoginPath = "/Auth/Login");
+    // .AddGoogle(o => { o.ClientId = ""; o.ClientSecret = ""; })
+    // .AddMicrosoftAccount(o => { o.ClientId = ""; o.ClientSecret = ""; });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     SqlConnectionStringBuilder sqlBuilder = new(Configuration.GetConnectionString("DatabaseConnection"));
