@@ -1,7 +1,9 @@
 using Classifieds.Data;
 using Classifieds.Web.Services;
+using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.UI.Services;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
@@ -10,6 +12,10 @@ var Configuration = builder.Configuration;
 
 var mySqlUsr = Environment.GetEnvironmentVariable("MY_SQL_USR");
 var mySqlPwd = Environment.GetEnvironmentVariable("MY_SQL_PWD");
+
+// Add services to the container.
+builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
+    .AddCookie(q => q.LoginPath = "/Auth/Login");
 
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     SqlConnectionStringBuilder sqlBuilder = new(Configuration.GetConnectionString("DatabaseConnection"));
@@ -21,8 +27,8 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
 
 builder.Services.AddTransient<IEmailSender>(s => new EmailSender("localhost", 25, "no-reploy@classified.com"));
 
-// Add services to the container.
-builder.Services.AddRazorPages();
+builder.Services.AddRazorPages()
+    .AddMvcOptions(q => q.Filters.Add(new AuthorizeFilter()));
 
 var app = builder.Build();
 
@@ -39,6 +45,7 @@ app.UseStaticFiles();
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapRazorPages();
