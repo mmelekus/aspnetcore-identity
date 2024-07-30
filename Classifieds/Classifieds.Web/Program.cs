@@ -14,11 +14,6 @@ var mySqlUsr = Environment.GetEnvironmentVariable("MY_SQL_USR");
 var mySqlPwd = Environment.GetEnvironmentVariable("MY_SQL_PWD");
 
 // Add services to the container.
-builder.Services.AddAuthentication(CookieAuthenticationDefaults.AuthenticationScheme)
-    .AddCookie(q => q.LoginPath = "/Auth/Login");
-    // .AddGoogle(o => { o.ClientId = ""; o.ClientSecret = ""; })
-    // .AddMicrosoftAccount(o => { o.ClientId = ""; o.ClientSecret = ""; });
-
 builder.Services.AddDbContext<ApplicationDbContext>(options => {
     SqlConnectionStringBuilder sqlBuilder = new(Configuration.GetConnectionString("DatabaseConnection"));
     sqlBuilder.UserID = mySqlUsr;
@@ -32,6 +27,13 @@ builder.Services.AddTransient<IEmailSender>(s => new EmailSender("localhost", 25
 builder.Services.AddRazorPages()
     .AddMvcOptions(q => q.Filters.Add(new AuthorizeFilter()));
 
+builder.Services.AddAuthentication(o => {
+    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+})
+    .AddCookie(q => q.LoginPath = "/Auth/Login");
+    // .AddGoogle(o => { o.ClientId = ""; o.ClientSecret = ""; })
+    // .AddMicrosoftAccount(o => { o.ClientId = ""; o.ClientSecret = ""; });
+
 var app = builder.Build();
 
 // Configure the HTTP request pipeline.
@@ -40,6 +42,10 @@ if (!app.Environment.IsDevelopment())
     app.UseExceptionHandler("/Error");
     // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
     app.UseHsts();
+}
+else
+{
+    app.UseDeveloperExceptionPage();
 }
 
 app.UseHttpsRedirection();
