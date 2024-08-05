@@ -1,4 +1,5 @@
 using Classifieds.Data;
+using Classifieds.Data.Entities;
 using Classifieds.Web.Services;
 using Microsoft.AspNetCore.Authentication.Cookies;
 using Microsoft.AspNetCore.Identity;
@@ -8,6 +9,7 @@ using Microsoft.Data.SqlClient;
 using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
+var connectionString = builder.Configuration.GetConnectionString("ApplicationDbContextConnection") ?? throw new InvalidOperationException("Connection string 'ApplicationDbContextConnection' not found.");
 var Configuration = builder.Configuration;
 
 var mySqlUsr = Environment.GetEnvironmentVariable("MY_SQL_USR");
@@ -22,17 +24,27 @@ builder.Services.AddDbContext<ApplicationDbContext>(options => {
     options.UseSqlServer(sqlBuilder.ConnectionString);
 });
 
+builder.Services.AddDefaultIdentity<User>(options => {
+    options.Password.RequireDigit = true;
+    options.Password.RequiredLength = 7;
+    options.Password.RequireUppercase = true;
+    options.Password.RequireNonAlphanumeric = true;
+    options.SignIn.RequireConfirmedAccount = false;
+})
+    .AddRoles<IdentityRole>()
+    .AddEntityFrameworkStores<ApplicationDbContext>();
+
 builder.Services.AddTransient<IEmailSender>(s => new EmailSender("localhost", 25, "no-reploy@classified.com"));
 
 builder.Services.AddRazorPages()
     .AddMvcOptions(q => q.Filters.Add(new AuthorizeFilter()));
 
-builder.Services.AddAuthentication(o => {
-    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
-})
-    .AddCookie(q => q.LoginPath = "/Auth/Login");
-    // .AddGoogle(o => { o.ClientId = ""; o.ClientSecret = ""; })
-    // .AddMicrosoftAccount(o => { o.ClientId = ""; o.ClientSecret = ""; });
+//builder.Services.AddAuthentication(o => {
+//    o.DefaultScheme = CookieAuthenticationDefaults.AuthenticationScheme;
+//})
+//    .AddCookie(q => q.LoginPath = "/Auth/Login");
+//    // .AddGoogle(o => { o.ClientId = ""; o.ClientSecret = ""; })
+//    // .AddMicrosoftAccount(o => { o.ClientId = ""; o.ClientSecret = ""; });
 
 var app = builder.Build();
 

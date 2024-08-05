@@ -13,7 +13,7 @@ public class CustomClaimsService : UserClaimsPrincipalFactory<User>
     protected override async Task<ClaimsIdentity> GenerateClaimsAsync(User user)
     {
         var identity = await base.GenerateClaimsAsync(user);
-        var isMinimumAge = user.DateOfBirth.AddYears(18) >= DateTime.Now;
+        var isMinimumAge = user.DateOfBirth?.AddYears(18) >= DateTime.Now;
 
         identity.AddClaim(new Claim(UserClaims.IsMinimumAge, isMinimumAge.ToString()));
         identity.AddClaim(new Claim(UserClaims.FullName, $"{user.FirstName} {user.LastName}"));
