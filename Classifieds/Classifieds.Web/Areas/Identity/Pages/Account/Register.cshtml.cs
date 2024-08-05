@@ -99,6 +99,22 @@ namespace Classifieds.Web.Areas.Identity.Pages.Account
             [Display(Name = "Confirm password")]
             [Compare("Password", ErrorMessage = "The password and confirmation password do not match.")]
             public string ConfirmPassword { get; set; }
+
+            [Required]
+            [Display(Name = "User Name")]
+            public string UserName { get; set; }
+
+            [Required]
+            [Display(Name = "First Name")]
+            public string FirstName { get; set; }
+
+            [Required]
+            [Display(Name = "Last Name")]
+            public string LastName { get; set; }
+
+            [Display(Name = "Date of Birth")]
+            [DataType(DataType.Date)]
+            public DateTime DateOfBirth { get; set; }
         }
 
 
@@ -116,7 +132,12 @@ namespace Classifieds.Web.Areas.Identity.Pages.Account
             {
                 var user = CreateUser();
 
-                await _userStore.SetUserNameAsync(user, Input.Email, CancellationToken.None);
+                user.Email = Input.Email;
+                user.FirstName = Input.FirstName;
+                user.LastName = Input.LastName;
+                user.DateOfBirth = Input.DateOfBirth;
+                await _userStore.SetUserNameAsync(user, Input.UserName, CancellationToken.None);
+
                 //await _emailStore.SetEmailAsync(user, Input.Email, CancellationToken.None);
                 var result = await _userManager.CreateAsync(user, Input.Password);
 
