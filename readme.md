@@ -6,5 +6,10 @@ Repository to store exercise files and labs for the training course [ASP.NET Cor
 - [Classifieds-Net6-Core-IdentitySecurity](https://github.com/trevoirwilliams/Classifieds-Net6-Core-IdentitySecurity)
 - [ASP.NEET-Core-Identity---Authentication-and-Authorization](https://github.com/PacktPublishing/ASP.NET-Core-Identity---Authentication-and-Authorization)
 - [Excercise Files and Projects (GitHub)](https://github.com/mmelekus/aspnetcore-identity)
+- [Papercut-SMTP](https://www.papercut-smtp.com)
 
 ## Technologies
+- ASP.NET 8.0
+- ASP.NET Core 8.0
+- ASP.NET Core Identity 8.0
+- EntityFramework Core 8.0

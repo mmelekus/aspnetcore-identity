@@ -3,6 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Classifieds.Data;
 using Classifieds.Data.Entities;
 using Microsoft.Data.SqlClient;
+using Microsoft.AspNetCore.Identity.UI.Services;
+using Classifieds.Web.Services;
+using Classifieds.Web.Services.Identity;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -17,16 +20,21 @@ sqlBuilder.TrustServerCertificate = true;
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseSqlServer(sqlBuilder.ConnectionString));
+    
 builder.Services.AddDatabaseDeveloperPageExceptionFilter();
 
+builder.Services.AddTransient<IEmailSender>(s => new EmailSender("localhost", 25, "no-reply@classified.com"));
+
 builder.Services.AddDefaultIdentity<User>(options => {
-        options.SignIn.RequireConfirmedAccount = false;
+        options.SignIn.RequireConfirmedAccount = true;
         options.Password.RequireDigit = true;
         options.Password.RequiredLength = 8;
         options.Password.RequireUppercase = true;
         options.Password.RequireNonAlphanumeric = true;
     })
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddPasswordValidator<PasswordValidatorService>();
+
 builder.Services.AddControllersWithViews();
 
 var app = builder.Build();
