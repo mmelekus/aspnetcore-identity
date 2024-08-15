@@ -3,17 +3,16 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.0.31903.59
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classifieds.Web", "Classifieds.Web\Classifieds.Web.csproj", "{D25BB5D9-8206-4A5A-99B1-35FE13AEA69C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Classifieds.Web", "Classifieds.Web\Classifieds.Web.csproj", "{D25BB5D9-8206-4A5A-99B1-35FE13AEA69C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Classifieds.Data", "Classifieds.Data\Classifieds.Data.csproj", "{5461F069-AD25-4A26-A163-0F3D6CCB14AC}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Classifieds.Data", "Classifieds.Data\Classifieds.Data.csproj", "{5461F069-AD25-4A26-A163-0F3D6CCB14AC}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "SimpleAuth.App", "SimpleAuth.App\SimpleAuth.App.csproj", "{6BC485D6-B5FD-4594-B2DB-FC322521E9F7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
 		Release|Any CPU = Release|Any CPU
-	EndGlobalSection
-	GlobalSection(SolutionProperties) = preSolution
-		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
 		{D25BB5D9-8206-4A5A-99B1-35FE13AEA69C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
@@ -24,5 +23,15 @@ Global
 		{5461F069-AD25-4A26-A163-0F3D6CCB14AC}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{5461F069-AD25-4A26-A163-0F3D6CCB14AC}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{5461F069-AD25-4A26-A163-0F3D6CCB14AC}.Release|Any CPU.Build.0 = Release|Any CPU
+		{6BC485D6-B5FD-4594-B2DB-FC322521E9F7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{6BC485D6-B5FD-4594-B2DB-FC322521E9F7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{6BC485D6-B5FD-4594-B2DB-FC322521E9F7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{6BC485D6-B5FD-4594-B2DB-FC322521E9F7}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(ExtensibilityGlobals) = postSolution
+		SolutionGuid = {DC13C13B-406C-45EE-837D-E04A1A73E7D4}
 	EndGlobalSection
 EndGlobal

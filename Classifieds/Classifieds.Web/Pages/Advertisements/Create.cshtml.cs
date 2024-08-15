@@ -1,4 +1,5 @@
-﻿using Classifieds.Data.Entities;
+﻿using Classifieds.Data;
+using Classifieds.Data.Entities;
 using Classifieds.Web.Constants;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
@@ -11,9 +12,9 @@ namespace Classifieds.Web.Pages.Advertisements
     [Authorize(Policy = Policies.IsMinimumAge)]
     public class CreateModel : PageModel
     {
-        private readonly Classifieds.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public CreateModel(Classifieds.Data.ApplicationDbContext context)
+        public CreateModel(ApplicationDbContext context)
         {
             _context = context;
         }

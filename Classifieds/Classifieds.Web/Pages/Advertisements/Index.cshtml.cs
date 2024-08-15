@@ -14,14 +14,14 @@ namespace Classifieds.Web.Pages.Advertisements
     [AllowAnonymous]
     public class IndexModel : PageModel
     {
-        private readonly Classifieds.Data.ApplicationDbContext _context;
+        private readonly ApplicationDbContext _context;
 
-        public IndexModel(Classifieds.Data.ApplicationDbContext context)
+        public IndexModel(ApplicationDbContext context)
         {
             _context = context;
         }
 
-        public IList<Advertisement> Advertisement { get;set; }
+        public IList<Advertisement> Advertisement { get;set; } = null!;
 
         public async Task OnGetAsync()
         {
