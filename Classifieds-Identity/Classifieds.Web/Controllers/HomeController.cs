@@ -1,6 +1,7 @@
 using System.Diagnostics;
 using Microsoft.AspNetCore.Mvc;
 using Classifieds.Web.Models;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Classifieds.Web.Controllers;
 
@@ -13,6 +14,7 @@ public class HomeController : Controller
         _logger = logger;
     }
 
+    [AllowAnonymous]
     public IActionResult Index()
     {
         return View();

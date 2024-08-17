@@ -18,6 +18,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Classifieds.Web.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class LoginModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;
