@@ -23,6 +23,7 @@ using Microsoft.Extensions.Logging;
 
 namespace Classifieds.Web.Areas.Identity.Pages.Account
 {
+    [AllowAnonymous]
     public class RegisterModel : PageModel
     {
         private readonly SignInManager<User> _signInManager;

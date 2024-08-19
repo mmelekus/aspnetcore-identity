@@ -31,6 +31,10 @@ builder.Services.AddDefaultIdentity<User>(options => {
         options.Password.RequiredLength = 8;
         options.Password.RequireUppercase = true;
         options.Password.RequireNonAlphanumeric = true;
+
+        options.Lockout.AllowedForNewUsers = true;
+        options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
+        options.Lockout.MaxFailedAccessAttempts = 3;
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddPasswordValidator<PasswordValidatorService>();
