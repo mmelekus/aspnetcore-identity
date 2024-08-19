@@ -15,19 +15,24 @@ using Microsoft.AspNetCore.Identity.UI.Services;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 using Microsoft.Extensions.Logging;
+using Microsoft.AspNetCore.Mvc.ModelBinding;
 
 namespace Classifieds.Web.Areas.Identity.Pages.Account
 {
     [AllowAnonymous]
     public class LoginModel : PageModel
     {
+        private readonly UserManager<User> _userManager;
         private readonly SignInManager<User> _signInManager;
         private readonly ILogger<LoginModel> _logger;
+        private readonly IEmailSender _emailSender;
 
-        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger)
+        public LoginModel(SignInManager<User> signInManager, ILogger<LoginModel> logger, UserManager<User> userManager, IEmailSender emailSender)
         {
             _signInManager = signInManager;
             _logger = logger;
+            _userManager = userManager;
+            _emailSender = emailSender;
         }
 
         /// <summary>
@@ -116,7 +121,7 @@ namespace Classifieds.Web.Areas.Identity.Pages.Account
             {
                 // This doesn't count login failures towards account lockout
                 // To enable password failures to trigger account lockout, set lockoutOnFailure: true
-                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: false);
+                var result = await _signInManager.PasswordSignInAsync(Input.UserName, Input.Password, Input.RememberMe, lockoutOnFailure: true);
                 if (result.Succeeded)
                 {
                     _logger.LogInformation("User logged in.");
@@ -129,7 +134,10 @@ namespace Classifieds.Web.Areas.Identity.Pages.Account
                 if (result.IsLockedOut)
                 {
                     _logger.LogWarning("User account locked out.");
-                    return RedirectToPage("./Lockout");
+                    var user = await _userManager.FindByNameAsync(Input.UserName);
+                    await _emailSender.SendEmailAsync(user.Email, "Locked out account information", "You have been locked out of your account for too many invalid login attempts. If this was not you, please reset your password as this might have been a breach.");
+                    ModelState.AddModelError("", "Your account is locked out. Please check your email for further instructions.");
+                    return RedirectToPage("./ForgotPassword");
                 }
                 else
                 {
