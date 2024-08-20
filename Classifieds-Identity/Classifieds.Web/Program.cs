@@ -38,7 +38,8 @@ builder.Services.AddDefaultIdentity<User>(options => {
     })
     .AddRoles<IdentityRole>() // Must be defined before adding entity framework stores
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddPasswordValidator<PasswordValidatorService>();
+    .AddPasswordValidator<PasswordValidatorService>()
+    .AddClaimsPrincipalFactory<CustomerClaimsService>();
 
 builder.Services.AddControllersWithViews();
 
