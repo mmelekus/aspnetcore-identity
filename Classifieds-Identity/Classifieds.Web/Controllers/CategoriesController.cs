@@ -8,10 +8,11 @@ using Microsoft.EntityFrameworkCore;
 using Classifieds.Data;
 using Classifieds.Data.Entities;
 using Microsoft.AspNetCore.Authorization;
+using Classifieds.Data.Constants;
 
 namespace Classifieds.Web.Controllers
 {
-    [Authorize]
+    [Authorize(Roles = $"{Roles.Administrator}")] // Comma delimited string of roles
     public class CategoriesController : Controller
     {
         private readonly ApplicationDbContext _context;
