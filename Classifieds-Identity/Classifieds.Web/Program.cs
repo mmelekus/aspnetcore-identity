@@ -36,6 +36,7 @@ builder.Services.AddDefaultIdentity<User>(options => {
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
         options.Lockout.MaxFailedAccessAttempts = 3;
     })
+    .AddRoles<IdentityRole>() // Must be defined before adding entity framework stores
     .AddEntityFrameworkStores<ApplicationDbContext>()
     .AddPasswordValidator<PasswordValidatorService>();
 
