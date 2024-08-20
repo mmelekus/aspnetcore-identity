@@ -8,6 +8,8 @@ using Microsoft.EntityFrameworkCore;
 using Classifieds.Data;
 using Classifieds.Data.Entities;
 
+namespace Classifieds.Web.Controllers;
+
 public class AdvertisementsController : Controller
 {
     private readonly ApplicationDbContext _context;
