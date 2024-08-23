@@ -43,6 +43,12 @@ builder.Services.AddDefaultIdentity<User>(options => {
     .AddPasswordValidator<PasswordValidatorService>()
     .AddClaimsPrincipalFactory<CustomerClaimsService>();
 
+builder.Services.AddAuthentication()
+    .AddGoogle(googleOptions => {
+        googleOptions.ClientId = builder.Configuration["google:client_id"]!;
+        googleOptions.ClientSecret = builder.Configuration["google:client_secret"]!;
+    });
+
 builder.Services.AddAuthorization(options => {
     options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
     options.AddPolicy(Policies.IsMinimumAge, policy => policy.RequireClaim(UserClaims.IsMinimumAge, "true"));
