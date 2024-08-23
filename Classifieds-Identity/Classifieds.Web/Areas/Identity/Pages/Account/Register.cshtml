@@ -13,6 +13,13 @@
             <hr />
             <div asp-validation-summary="ModelOnly" class="text-danger" role="alert"></div>
             <div class="form-floating mb-3">
+                <label asp-for="Input.Role"></label>
+                <select class="form-control" asp-items="Model.Input.Roles" asp-for="Input.Role">
+                    <option>--- Select Desired Role ---</option>
+                </select>
+                <span asp-validation-for="Input.Role" class="text-danger"></span>
+            </div>
+            <div class="form-floating mb-3">
                 <input asp-for="Input.UserName" class="form-control" autocomplete="username" aria-required="true" placeholder="" />
                 <label asp-for="Input.UserName">User Name</label>
                 <span asp-validation-for="Input.UserName" class="text-danger"></span>

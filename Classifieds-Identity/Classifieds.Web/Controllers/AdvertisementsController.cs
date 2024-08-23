@@ -7,6 +7,11 @@ using Microsoft.AspNetCore.Mvc.Rendering;
 using Microsoft.EntityFrameworkCore;
 using Classifieds.Data;
 using Classifieds.Data.Entities;
+using Classifieds.Data.Constants;
+using Classifieds.Web.Constants;
+using Microsoft.AspNetCore.Authorization;
+
+namespace Classifieds.Web.Controllers;
 
 public class AdvertisementsController : Controller
 {
@@ -44,8 +49,19 @@ public class AdvertisementsController : Controller
     }
 
     // GET: Advertisements/Create
+    [Authorize(Policy = Policies.IsMinimumAge)]
     public IActionResult Create()
     {
+        /* Not practical to do this
+        // // var isMinimumAge = User.Claims.FirstOrDefault(q => q.Type == UserClaims.IsMinimumAge)?.Value;
+        // // var isMinimumAge = User.FindFirst(q => q.Type == UserClaims.IsMinimumAge)?.Value;
+        // var isMinimumAge = User.FindFirst(UserClaims.IsMinimumAge)?.Value;
+
+        // if (bool.TryParse(isMinimumAge, out bool minAge) && !minAge)
+        // {
+        //     return LocalRedirect("/Identity/Account/AccessDenied/");
+        // } */
+
         ViewData["CategoryId"] = new SelectList(_context.Categories, "Id", "Name");
         return View();
     }

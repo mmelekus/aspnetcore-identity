@@ -6,6 +6,8 @@ using Microsoft.Data.SqlClient;
 using Microsoft.AspNetCore.Identity.UI.Services;
 using Classifieds.Web.Services;
 using Classifieds.Web.Services.Identity;
+using Classifieds.Web.Constants;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -36,8 +38,15 @@ builder.Services.AddDefaultIdentity<User>(options => {
         options.Lockout.DefaultLockoutTimeSpan = TimeSpan.FromMinutes(5);
         options.Lockout.MaxFailedAccessAttempts = 3;
     })
+    .AddRoles<IdentityRole>() // Must be defined before adding entity framework stores
     .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddPasswordValidator<PasswordValidatorService>();
+    .AddPasswordValidator<PasswordValidatorService>()
+    .AddClaimsPrincipalFactory<CustomerClaimsService>();
+
+builder.Services.AddAuthorization(options => {
+    options.FallbackPolicy = new AuthorizationPolicyBuilder().RequireAuthenticatedUser().Build();
+    options.AddPolicy(Policies.IsMinimumAge, policy => policy.RequireClaim(UserClaims.IsMinimumAge, "true"));
+});
 
 builder.Services.AddControllersWithViews();
 
